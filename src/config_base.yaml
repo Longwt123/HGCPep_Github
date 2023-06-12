@@ -1,0 +1,72 @@
+# 常用设置
+card_id: 3  # 1 2 3  选择显卡
+
+frontPart: ESM2  # textCNN  CNN  GRU  lstm  LSTMwithAttention RNN_CNN
+latterPart: HGNNP  # HGNNP  HGNN  nothing  HyperGCN  HNHN  UniGCN  UniGAT  UniSAGE  UniGIN
+#latterPart: nothing  # HGNNP  HGNN  nothing(要改全连接层的维度)
+lastPart: fc
+
+loss_type: naive_loss # CE  naive_loss
+
+naive_loss: # 设置naive_loss的参数    True   or   False
+    loss_weight: False
+    ohem: True
+    focal: False
+
+epochs: 1500                     # total number of epochs  1500  300
+class_num: 15
+#class_num: 10
+
+draw_data:
+  draw_class:  'all'  #  0   12 'all' 0-14
+  visualization_epoch:
+    - ''
+#    - 'test_epoch_1'
+#    - 'test_epoch_50'
+#    - 'test_epoch_100'
+    - 'test_epoch_500'
+    - 'test_epoch_1000'
+#    - 'test_epoch_1200'
+#    - 'test_epoch_1300'
+    - 'test_epoch_1500'
+  visualization_coefficient: False # 要算很久
+
+dataset: # 读取数据集  pkl文件
+  label_file_name: 'hyper_labels_new15'
+  edges_file_name: 'hyper_edges_new15'
+  peptide_file_name: 'peptide_seq'
+  train_mask_file_name: 'train_mask_811'
+  valid_mask_file_name: 'val_mask_811'
+  test_mask_file_name: 'test_mask_811'
+
+
+task_name: HGCPep
+log_dir: /mnt/sdb/home/lwt/tao/HGCPep_new/log
+choose_model: HGNNP
+task: classification
+
+seed: 9
+patience: 15
+
+HGCPep_model:
+  input_dim: 100
+  mid_dim: 64
+  hidden_units: 64  # 64  320
+
+# focal loss
+alpha: 0.5
+gamma: 5
+
+
+split_type: random             # pretrain_data splitting (i.e., random/scaffold)
+save_ckpt: 100
+save_model: best_valid
+checkpoint: False
+DP: False  # 是否多GPU训练
+
+optim:
+  type: adam
+  init_lr: 0.0001                # initial learning rate for the prediction head
+  init_base_lr: 0.001           # initial learning rate for the base GNN encoder
+  weight_decay: 7e-4  # 5e-4    yuan 1e-5         # weight decay of Adam
+
